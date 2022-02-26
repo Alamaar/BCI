@@ -1,4 +1,6 @@
 
+var cloudinary = require('cloudinary').v2;
+var { CloudinaryStorage } = require('multer-storage-cloudinary');
 var express = require('express');
 var multer = require('multer');
 const router = express.Router();
@@ -6,14 +8,14 @@ const router = express.Router();
 
 
 // Config 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads')
+// Config cloudinary storage for multer-storage-cloudinary
+var storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: '/uploads'
   },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-})
+});
+
 var upload = multer({ storage: storage })
 
 router.use(express.static(__dirname + '/public'));
