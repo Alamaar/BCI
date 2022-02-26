@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 const users = require('./routes/users');
 const postings = require('./routes/postings');
-const uploads = require('./routes/uploads')
+const uploads = require('./uploads/uploads')
 
 
 

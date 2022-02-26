@@ -12,6 +12,7 @@ const postingSchema = require('../schemas/postings.schema.json')
 const postingArraySchema = require('../schemas/postings.array.schema.json')
 
 const addr = 'http://localhost:3000'
+//const addr = 'https://bci-t9alma00.herokuapp.com'
 
 
 //Start server
@@ -202,6 +203,8 @@ describe('Api test', function() {
                         expect(result).to.have.status(200)
                         expect(result.body.path).to.include('test.png')
                         done()
+
+                        console.log(result.body.path)
                         
 
                     })
