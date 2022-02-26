@@ -11,8 +11,8 @@ chai.use(chaiJsonSchemaAjv)
 const postingSchema = require('../schemas/postings.schema.json')
 const postingArraySchema = require('../schemas/postings.array.schema.json')
 
-//const addr = 'http://localhost:3000'
-const addr = 'https://bci-t9alma00.herokuapp.com'
+const addr = 'http://localhost:3000'
+
 
 //Start server
 
