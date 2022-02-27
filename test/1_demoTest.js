@@ -12,7 +12,7 @@ const postingSchema = require('../schemas/postings.schema.json')
 const postingArraySchema = require('../schemas/postings.array.schema.json')
 
 const addr = 'http://localhost:3000'
-//const addr = 'https://bci-t9alma00.herokuapp.com'
+
 
 
 //Start server
@@ -42,7 +42,7 @@ describe('Api test', function() {
         server.close()
     })
 
-    describe('Create/login test', function(done) {
+    describe('Create/login test', function() {
 
         describe('Create user test', function(){
             it('Should create user', function(done){

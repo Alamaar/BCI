@@ -1,0 +1,663 @@
+openapi: 3.1.0
+info:
+  title: BCI-exercise
+  version: '1.0'
+servers:
+  - url: 'https://bci-t9alma00.herokuapp.com'
+paths:
+  /users:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: OK user created
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - firstName
+                - lastName
+                - username
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  username: bob1234
+                  password: qwerty
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+    parameters: []
+  /users/login:
+    post:
+      summary: ''
+      operationId: post-users-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    token: jwttoken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+  /postings:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    postings:
+                      $ref: '#/components/schemas/postings-with-id'
+              examples:
+                example-1:
+                  value:
+                    - postings:
+                        id: string
+                        title: string
+                        category: string
+                        location:
+                          country: string
+                          city: string
+                          zip: string
+                        images:
+                          images1: string
+                          images2: string
+                          image3: string
+                          image4: string
+                        delivery: string
+                        price: string
+                        posting_date: string
+                        seller:
+                          name: string
+                          number: string
+                          email: string
+                          lastname: string
+                        Description: string
+      operationId: get-postings
+      parameters:
+        - schema:
+            type: string
+            example: categoty
+          in: query
+          name: category
+          description: Category
+        - schema:
+            type: string
+          in: query
+          name: location
+          description: Location
+        - schema:
+            type: string
+          in: query
+          name: date
+      description: Get posting and filter them with query parameter
+    post:
+      summary: ''
+      operationId: post-postings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    id: '3'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posting'
+            examples:
+              example-1:
+                value:
+                  title: string
+                  category: string
+                  location:
+                    country: string
+                    city: string
+                    zip: string
+                  images:
+                    images1: string
+                    images2: string
+                    image3: string
+                    image4: string
+                  price: string
+                  posting_date: string
+                  delivery: string
+                  seller:
+                    name: string
+                    number: string
+                    email: string
+                    lastname: string
+                  Description: string
+      security:
+        - 'API Key ': []
+    parameters:
+      - schema:
+          type: string
+        name: ''
+        in: path
+  '/postings/id/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of posting
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  category:
+                    type: string
+                  location:
+                    type: object
+                    properties:
+                      country:
+                        type: string
+                      city:
+                        type: string
+                      zip:
+                        type: string
+                  images:
+                    type: object
+                    properties:
+                      images1:
+                        type: string
+                      images2:
+                        type: string
+                      image3:
+                        type: string
+                      image4:
+                        type: string
+                  price:
+                    type: string
+                  posting_date:
+                    type: string
+                  delivery:
+                    type: string
+                  seller:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      number:
+                        type: string
+                      email:
+                        type: string
+                      lastname:
+                        type: string
+                  Description:
+                    type: string
+              examples:
+                example:
+                  value:
+                    id: asa23423
+                    title: Tunturi 100
+                    category: Bicycles
+                    location:
+                      country: Finland
+                      city: Oulu
+                      zip: '90420'
+                    images:
+                      id: string
+                      path: string
+                    price: 50 €
+                    posting_date: '2020-01-01'
+                    delivery: Pick-up
+                    seller:
+                      name: Pekka
+                      number: '04054545454'
+                      email: pekka@pekka.fi
+                      lastname: Pekkarinen
+                    Description: sGood bike goes as fast as you can pedal
+                example-1:
+                  value:
+                    id: string
+                    title: string
+                    category: string
+                    location:
+                      country: string
+                      city: string
+                      zip: string
+                    images:
+                      images1: string
+                      images2: string
+                      image3: string
+                      image4: string
+                    price: string
+                    posting_date: string
+                    delivery: string
+                    seller:
+                      name: string
+                      number: string
+                      email: string
+                      lastname: string
+                    Description: string
+        '400':
+          description: Bad Request
+      operationId: get-postings-id
+      x-internal: false
+      parameters:
+        - schema:
+            type: string
+          in: query
+      description: Get single posting by path param id
+    put:
+      summary: ''
+      operationId: put-postings-id-id
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: Update posting
+      security:
+        - 'API Key ': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posting'
+            examples:
+              example-1:
+                value:
+                  title: string
+                  category: string
+                  location:
+                    country: string
+                    city: string
+                    zip: string
+                  images:
+                    images1: string
+                    images2: string
+                    image3: string
+                    image4: string
+                  price: string
+                  posting_date: string
+                  delivery: string
+                  seller:
+                    name: string
+                    number: string
+                    email: string
+                    lastname: string
+                  Description: string
+    delete:
+      summary: ''
+      operationId: delete-postings-id-id
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      security:
+        - 'API Key ': []
+      description: Delete posting by id
+  /uploads/:
+    post:
+      summary: ''
+      operationId: post-uploads-images
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  path:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    path: www.imageserver.com/yourimageaddress
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: object
+          application/json:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      description: 'Image upload, retruns url of uploaded picture'
+    parameters: []
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+    posting:
+      description: ''
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        category:
+          type: string
+          minLength: 1
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+              minLength: 1
+            city:
+              type: string
+              minLength: 1
+            zip:
+              type: string
+              minLength: 1
+          required:
+            - country
+            - city
+            - zip
+        images:
+          type: object
+          properties:
+            images1:
+              type: string
+              minLength: 1
+            images2:
+              type: string
+              minLength: 1
+            image3:
+              type: string
+              minLength: 1
+            image4:
+              type: string
+              minLength: 1
+          required:
+            - images1
+            - images2
+            - image3
+            - image4
+        price:
+          type: string
+          minLength: 1
+        posting_date:
+          type: string
+          minLength: 1
+        delivery:
+          type: string
+          minLength: 1
+        seller:
+          type: object
+          properties:
+            name:
+              type: string
+              minLength: 1
+            number:
+              type: string
+              minLength: 1
+            email:
+              type: string
+              minLength: 1
+            lastname:
+              type: string
+              minLength: 1
+          required:
+            - name
+            - number
+            - email
+            - lastname
+        Description:
+          type: string
+          minLength: 1
+      required:
+        - title
+        - category
+        - location
+        - images
+        - price
+        - posting_date
+        - delivery
+        - seller
+        - Description
+      x-examples:
+        example-1:
+          title: Test
+          category: Computers
+          location:
+            country: Sweeden
+            city: Lahti
+            zip: string
+          images:
+            images1: string
+            images2: string
+            image3: string
+            image4: string
+          price: string
+          posting_date: string
+          delivery: string
+          seller:
+            name: string
+            number: string
+            email: string
+            lastname: string
+          Description: string
+    postings-with-id:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          title: Test
+          category: Computers
+          location:
+            country: Sweeden
+            city: Lahti
+            zip: string
+          images:
+            images1: string
+            images2: string
+            image3: string
+            image4: string
+          price: string
+          posting_date: string
+          delivery: string
+          seller:
+            name: string
+            number: string
+            email: string
+            lastname: string
+          Description: string
+      title: ''
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+          minLength: 1
+        category:
+          type: string
+          minLength: 1
+        location:
+          type: object
+          required:
+            - country
+            - city
+            - zip
+          properties:
+            country:
+              type: string
+              minLength: 1
+            city:
+              type: string
+              minLength: 1
+            zip:
+              type: string
+              minLength: 1
+        images:
+          type: object
+          required:
+            - images1
+            - images2
+            - image3
+            - image4
+          properties:
+            images1:
+              type: string
+              minLength: 1
+            images2:
+              type: string
+              minLength: 1
+            image3:
+              type: string
+              minLength: 1
+            image4:
+              type: string
+              minLength: 1
+        delivery:
+          type: string
+          minLength: 1
+        price:
+          type: string
+          minLength: 1
+        posting_date:
+          type: string
+          minLength: 1
+        seller:
+          type: object
+          required:
+            - name
+            - number
+            - email
+            - lastname
+          properties:
+            name:
+              type: string
+              minLength: 1
+            number:
+              type: string
+              minLength: 1
+            email:
+              type: string
+              minLength: 1
+            lastname:
+              type: string
+              minLength: 1
+        Description:
+          type: string
+          minLength: 1
+      required:
+        - title
+        - category
+        - location
+        - images
+        - delivery
+        - price
+        - posting_date
+        - seller
+        - Description
+  securitySchemes:
+    'API Key ':
+      type: http
+      scheme: bearer
